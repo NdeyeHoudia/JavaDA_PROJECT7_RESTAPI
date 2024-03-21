@@ -1,11 +1,6 @@
 package com.nnk.springboot.domain;
-
 import lombok.Data;
-import org.hibernate.validator.constraints.Length;
-
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
 @Data
@@ -21,4 +16,5 @@ public class CurvePoint {
     Double term;
     Double value;
     Timestamp creationDate;
+
 }

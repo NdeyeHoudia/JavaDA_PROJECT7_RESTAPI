@@ -25,7 +25,6 @@ public class UserController {
         model.addAttribute("users", userRepository.findAll());
         return "user/list";
     }
-
     @GetMapping("/user/add")
     public String addUser(User bid) {
         return "user/add";
