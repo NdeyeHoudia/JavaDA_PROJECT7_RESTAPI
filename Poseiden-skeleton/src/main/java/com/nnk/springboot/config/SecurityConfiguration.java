@@ -20,17 +20,37 @@ public class SecurityConfiguration {
         this.userDetailsService = userDetailsService;
     }
 
+    /**
+     * PasswordEncoder is Spring Security's interface for encoding and comparing passwords
+     * @return an object BCryptPasswordEncoder
+     */
     @Bean
     public static PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * this method is the inetrface of the authentication entry point.
+     * its role is to authenticate the user issuing the request
+     * @param httpSecurity
+     * @param encoder
+     * @return  an object Authentication
+     * @throws Exception
+     */
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity httpSecurity, BCryptPasswordEncoder encoder) throws Exception {
        AuthenticationManagerBuilder managerBuilder = httpSecurity.getSharedObject(AuthenticationManagerBuilder.class);
        managerBuilder.userDetailsService(userDetailsService).passwordEncoder(encoder);
        return  managerBuilder.build();
     }
+
+    /**
+     * This method defines the security filter chain for the application. The filter chain specifies various security configurations.
+     * It configures authorization rules using authorizeHttpRequests()to allow public access to specific endpoints
+     * @param http
+     * @return
+     * @throws Exception
+     */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
