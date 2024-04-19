@@ -1,11 +1,9 @@
 package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.domain.CurvePoint;
-import com.nnk.springboot.domain.User;
 import com.nnk.springboot.repositories.CurvePointRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,7 +16,6 @@ import jakarta.validation.Valid;
 
 @Controller
 public class CurveController {
-    // TODO: Inject Curve Point service
     @Autowired
     private CurvePointRepository curvePointRepository;
     @RequestMapping("/curvePoint/list")
@@ -54,7 +51,6 @@ public class CurveController {
     @PostMapping("/curvePoint/update/{id}")
     public String updateCurveid(@PathVariable("id") Integer id, @Valid CurvePoint curvePoint,
                              BindingResult result, Model model) {
-        // TODO: check required fields, if valid call service to update Curve and return Curve list
         if (result.hasErrors()) {
             return "curve/update";
         }
@@ -66,7 +62,6 @@ public class CurveController {
 
     @GetMapping("/curvePoint/delete/{id}")
     public String deleteBid(@PathVariable("id") Integer id, Model model) {
-        // TODO: Find Curve by Id and delete the Curve, return to Curve list
 
         CurvePoint curvePoint = curvePointRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid curvePoint Id:" + id));
         curvePointRepository.delete(curvePoint);

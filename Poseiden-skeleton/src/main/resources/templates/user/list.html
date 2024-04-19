@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" 
-	  xmlns:th="http://www.thymeleaf.org">
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
 <head>
 <meta charset="utf-8"/>
 <title>Home</title>
@@ -12,7 +14,10 @@
 		<div class="col-6">
 		</div>
 		<div class="col-6 text-right">
-			<a href="/">Home</a>&nbsp;|&nbsp;<a href="/login">Login</a>
+			<a href="/">Home</a>&nbsp;|
+			&nbsp;
+			<span sec:authorize="isAuthenticated()"><a th:href="@{/logout}" >logout</a></span>
+			<!--<a href="/login">Login</a>-->
 		</div>
 		<div class="col-6">
 			<a href="/curvePoint/list">Curve Points</a>&nbsp;|

@@ -99,3 +99,5 @@ insert into Users(fullname, username, password, role) values("Administrator", "a
 insert into Users(fullname, username, password, role) values("User", "user", "$2a$10$pBV8ILO/s/nao4wVnGLrh.sa/rnr5pDpbeC4E.KNzQWoy8obFZdaa", "USER")
 
 insert into Users(fullname, username, password, role) values("Demo", "demo", "$2a$10$LMAcWqXwsGU.z2APrkF9Uey0NwwrZ55g1YySxAa6uWLM6dvLVF1hm", "USER")
+
+insert into Users(fullname, username, password, role) values("Administrator", "Admin", "$2a$10$GdzDlPIjv6KEEFZMbvtHw.rn70kZsr8dt8PuWY5YwoZ5Tu8RLXOOe", "ADMIN")

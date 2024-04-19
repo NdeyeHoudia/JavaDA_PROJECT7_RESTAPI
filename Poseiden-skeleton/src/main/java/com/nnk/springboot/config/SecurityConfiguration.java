@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -45,7 +46,8 @@ public class SecurityConfiguration {
     }
 
     /**
-     * This method defines the security filter chain for the application. The filter chain specifies various security configurations.
+     * This method defines the security filter chain for the application.
+     * The filter chain specifies various security configurations.
      * It configures authorization rules using authorizeHttpRequests()to allow public access to specific endpoints
      * @param http
      * @return
@@ -58,8 +60,12 @@ public class SecurityConfiguration {
                 authorizationManagerRequestMatcherRegistry
                         .anyRequest()
                         .authenticated())
-                .formLogin(Customizer.withDefaults())
-                .build();
+                .formLogin(Customizer.withDefaults()).logout(
+                logout -> logout
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                        .permitAll())
+
+                        .build();
     }
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {

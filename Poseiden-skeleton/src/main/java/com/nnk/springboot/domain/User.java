@@ -15,9 +15,7 @@ public class User {
     @NotEmpty
    // @Size(min = 8, max = 64)
    // @Pattern(regexp = "([/w]{8,64}$)")
-    @Pattern(regexp = "^(?=.*\\d)   .{8,64}$", flags = Pattern.Flag.UNICODE_CASE)
-
-    //([\w]{8,64})
+  //  @Pattern(regexp = "^(?=.*\\d)   .{8,64}$", flags = Pattern.Flag.UNICODE_CASE)
     @NotBlank(message = "Password is mandatory")
     private String password;
     @NotBlank(message = "FullName is mandatory")
