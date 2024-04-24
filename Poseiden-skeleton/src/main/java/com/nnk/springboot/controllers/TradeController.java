@@ -17,13 +17,18 @@ import jakarta.validation.Valid;
 
 @Controller
 public class TradeController {
-    // TODO: Inject Trade service
     @Autowired
     private TradeRepository tradeRepository;
+
+    /**
+     * this endpoint retrieves the list of trade
+     * @param model
+     * @param request
+     * @return a trade object
+     */
     @RequestMapping("/trade/list")
     public String home(Model model,  HttpServletRequest request)
     {
-        // TODO: find all Trade, add to model
         model.addAttribute("remoteUser", request.getRemoteUser());
         model.addAttribute("trades", tradeRepository.findAll());
         return "trade/list";
@@ -34,9 +39,15 @@ public class TradeController {
         return "trade/add";
     }
 
+    /**
+     *  this endpoint lets you add and register new curvePoint
+     * @param trade
+     * @param result
+     * @param model
+     * @return a string
+     */
     @PostMapping("/trade/validate")
     public String validate(@Valid Trade trade, BindingResult result, Model model) {
-        // TODO: check data valid and save to db, after saving return Trade list
         if(result.hasErrors()){
             return "bidList/add";
         }
@@ -45,18 +56,30 @@ public class TradeController {
         return "trade/add";
     }
 
+    /**
+     * this endpoint updates trade data using its identifier
+     * @param id
+     * @param model
+     * @return a string
+     */
     @GetMapping("/trade/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-        // TODO: get Trade by Id and to model then show to the form
         Trade trade = tradeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid trade Id:" + id));
         model.addAttribute("trades", trade);
         return "trade/update";
     }
 
+    /**
+     * this endpoint updates trade data using its identifier
+     * @param id
+     * @param trade
+     * @param result
+     * @param model
+     * @return a string
+     */
     @PostMapping("/trade/update/{id}")
     public String updateTrade(@PathVariable("id") Integer id, @Valid Trade trade,
                              BindingResult result, Model model) {
-        // TODO: check required fields, if valid call service to update Trade and return Trade list
         if (result.hasErrors()) {
             return "trade/update";
         }
@@ -66,9 +89,14 @@ public class TradeController {
         return "redirect:/trade/list";
     }
 
+    /**
+     * this function deletes an object using its identifier and displays the list after deletion
+     * @param id
+     * @param model
+     * @return  a string
+     */
     @GetMapping("/trade/delete/{id}")
     public String deleteTrade(@PathVariable("id") Integer id, Model model) {
-        // TODO: Find Trade by Id and delete the Trade, return to Trade list
         Trade trade = tradeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid trade Id:" + id));
         tradeRepository.delete(trade);
         model.addAttribute("trades", tradeRepository.findAll());

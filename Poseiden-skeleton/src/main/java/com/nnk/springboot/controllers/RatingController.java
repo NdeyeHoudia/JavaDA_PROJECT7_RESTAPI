@@ -18,6 +18,13 @@ import jakarta.validation.Valid;
 public class RatingController {
     @Autowired
     private RatingRepository ratingRepository;
+
+    /**
+     * this endpoint retrieves the list of rating
+     * @param model
+     * @param request
+     * @return a rating object
+     */
     @RequestMapping("/rating/list")
     public String home(Model model, HttpServletRequest request)
     {
@@ -31,6 +38,13 @@ public class RatingController {
         return "rating/add";
     }
 
+    /**
+     *  this endpoint lets you add and register new rating
+     * @param rating
+     * @param result
+     * @param model
+     * @return a string
+     */
     @PostMapping("/rating/validate")
     public String validate(@Valid Rating rating, BindingResult result, Model model) {
 
@@ -42,6 +56,12 @@ public class RatingController {
         return "rating/add";
     }
 
+    /**
+     * this endpoint updates rating data using its identifier
+     * @param id
+     * @param model
+     * @return a string
+     */
     @GetMapping("/rating/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
         Rating rating = ratingRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid rating Id:" + id));
@@ -49,6 +69,14 @@ public class RatingController {
         return "rating/update";
     }
 
+    /**
+     * this endpoint updates rating data using its identifier
+     * @param id
+     * @param rating
+     * @param result
+     * @param model
+     * @return a string
+     */
     @PostMapping("/rating/update/{id}")
     public String updateRating(@PathVariable("id") Integer id, @Valid Rating rating,
                              BindingResult result, Model model) {
@@ -62,6 +90,12 @@ public class RatingController {
         return "redirect:/rating/list";
     }
 
+    /**
+     * this function deletes an object using its identifier and displays the list after deletion
+     * @param id
+     * @param model
+     * @return  a string
+     */
     @GetMapping("/rating/delete/{id}")
     public String deleteRating(@PathVariable("id") Integer id, Model model) {
 

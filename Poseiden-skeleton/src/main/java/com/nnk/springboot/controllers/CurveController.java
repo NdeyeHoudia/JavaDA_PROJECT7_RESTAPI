@@ -18,6 +18,13 @@ import jakarta.validation.Valid;
 public class CurveController {
     @Autowired
     private CurvePointRepository curvePointRepository;
+
+    /**
+     * this endpoint retrieves the list of curvePoint
+     * @param model
+     * @param request
+     * @return a curvePoint object
+     */
     @RequestMapping("/curvePoint/list")
     public String home(Model model, HttpServletRequest request)
     {
@@ -31,6 +38,13 @@ public class CurveController {
         return "curvePoint/add";
     }
 
+    /**
+     *  this endpoint lets you add and register new curvePoint
+     * @param curvePoint
+     * @param result
+     * @param model
+     * @return a string
+     */
     @PostMapping("/curvePoint/validate")
     public String validate(@Valid CurvePoint curvePoint, BindingResult result, Model model) {
             if(result.hasErrors()){
@@ -41,6 +55,12 @@ public class CurveController {
         return "curvePoint/add";
     }
 
+    /**
+     * this endpoint updates curvePoint data using its identifier
+     * @param id
+     * @param model
+     * @return a string
+     */
     @GetMapping("/curvePoint/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
         CurvePoint curvePoint = curvePointRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid curvePoint Id:" + id));
@@ -48,6 +68,14 @@ public class CurveController {
         return "curvePoint/update";
     }
 
+    /**
+     * this endpoint updates curvePoint data using its identifier
+     * @param id
+     * @param curvePoint
+     * @param result
+     * @param model
+     * @return a string
+     */
     @PostMapping("/curvePoint/update/{id}")
     public String updateCurveid(@PathVariable("id") Integer id, @Valid CurvePoint curvePoint,
                              BindingResult result, Model model) {
@@ -60,6 +88,12 @@ public class CurveController {
         return "redirect:/curvePoint/list";
     }
 
+    /**
+     * this function deletes an object using its identifier and displays the list after deletion
+     * @param id
+     * @param model
+     * @return  a string
+     */
     @GetMapping("/curvePoint/delete/{id}")
     public String deleteBid(@PathVariable("id") Integer id, Model model) {
 
