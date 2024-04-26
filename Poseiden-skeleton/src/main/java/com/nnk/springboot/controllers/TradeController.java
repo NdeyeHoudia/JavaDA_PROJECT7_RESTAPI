@@ -65,7 +65,7 @@ public class TradeController {
     @GetMapping("/trade/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
         Trade trade = tradeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid trade Id:" + id));
-        model.addAttribute("trades", trade);
+        model.addAttribute("trade", trade);
         return "trade/update";
     }
 
