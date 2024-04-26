@@ -49,7 +49,9 @@ public class TradeController {
     @PostMapping("/trade/validate")
     public String validate(@Valid Trade trade, BindingResult result, Model model) {
         if(result.hasErrors()){
-            return "bidList/add";
+            //return "trade/add";
+            return "redirect:/trade/list";
+
         }
         tradeRepository.save(trade);
         model.addAttribute("trades", tradeRepository.findAll());

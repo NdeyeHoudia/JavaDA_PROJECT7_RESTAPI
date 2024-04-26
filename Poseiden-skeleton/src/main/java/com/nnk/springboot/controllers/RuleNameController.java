@@ -48,7 +48,9 @@ public class RuleNameController {
     public String validate(@Valid RuleName ruleName, BindingResult result, Model model) {
 
         if(result.hasErrors()){
-            return "ruleName/add";
+           // return "ruleName/add";
+            return "redirect:/ruleName/list";
+
         }
         ruleNameRepository.save(ruleName);
         model.addAttribute("ruleNames", ruleNameRepository.findAll());
