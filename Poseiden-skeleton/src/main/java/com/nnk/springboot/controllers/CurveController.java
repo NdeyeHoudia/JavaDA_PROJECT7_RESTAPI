@@ -2,6 +2,7 @@ package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.domain.CurvePoint;
 import com.nnk.springboot.repositories.CurvePointRepository;
+import com.nnk.springboot.services.CurvePointService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,8 @@ public class CurveController {
     @Autowired
     private CurvePointRepository curvePointRepository;
 
+    @Autowired
+    private CurvePointService curvePointService;
     /**
      * this endpoint retrieves the list of curvePoint
      * @param model
@@ -29,7 +32,7 @@ public class CurveController {
     public String home(Model model, HttpServletRequest request)
     {
         model.addAttribute("remoteUser", request.getRemoteUser());
-        model.addAttribute("curvePoints", curvePointRepository.findAll());
+        model.addAttribute("curvePoints", curvePointService.getCurvePoint());
         return "curvePoint/list";
     }
 
@@ -50,8 +53,8 @@ public class CurveController {
             if(result.hasErrors()){
                 return "curvePoint/add";
             }
-            curvePointRepository.save(curvePoint);
-            model.addAttribute("curvePoints", curvePointRepository.findAll());
+            curvePointService.saveCurvePoint(curvePoint);
+            model.addAttribute("curvePoints", curvePointService.getCurvePoint());
         return "curvePoint/add";
     }
 
@@ -63,7 +66,7 @@ public class CurveController {
      */
     @GetMapping("/curvePoint/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-        CurvePoint curvePoint = curvePointRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid curvePoint Id:" + id));
+        CurvePoint curvePoint = curvePointService.getCurvePointById(id).orElseThrow(() -> new IllegalArgumentException("Invalid curvePoint Id:" + id));
         model.addAttribute("curvePoint", curvePoint);
         return "curvePoint/update";
     }
@@ -83,8 +86,8 @@ public class CurveController {
             return "curve/update";
         }
         curvePoint.setId(id);
-        curvePointRepository.save(curvePoint);
-        model.addAttribute("curvePoints", curvePointRepository.findAll());
+        curvePointService.saveCurvePoint(curvePoint);
+        model.addAttribute("curvePoints", curvePointService.getCurvePoint());
         return "redirect:/curvePoint/list";
     }
 
@@ -97,9 +100,9 @@ public class CurveController {
     @GetMapping("/curvePoint/delete/{id}")
     public String deleteBid(@PathVariable("id") Integer id, Model model) {
 
-        CurvePoint curvePoint = curvePointRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid curvePoint Id:" + id));
-        curvePointRepository.delete(curvePoint);
-        model.addAttribute("curvePoints", curvePointRepository.findAll());
+        CurvePoint curvePoint = curvePointService.getCurvePointById(id).orElseThrow(() -> new IllegalArgumentException("Invalid curvePoint Id:" + id));
+        curvePointService.deleteCurvePoint(curvePoint);
+        model.addAttribute("curvePoints", curvePointService.getCurvePoint());
         return "redirect:/curvePoint/list";
     }
 }

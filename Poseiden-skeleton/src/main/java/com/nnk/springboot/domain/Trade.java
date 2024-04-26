@@ -33,4 +33,6 @@ public class Trade {
     private String sourceListId;
     private String side;
 
+    public Trade(String trade_account, String type) {
+    }
 }
