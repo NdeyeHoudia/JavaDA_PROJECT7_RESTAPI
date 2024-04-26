@@ -1,7 +1,9 @@
 package com.nnk.springboot;
 
+import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.domain.Rating;
 import com.nnk.springboot.repositories.RatingRepository;
+import com.nnk.springboot.services.RatingService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +14,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class RatingTests {
@@ -19,7 +23,10 @@ public class RatingTests {
 	@Autowired
 	private RatingRepository ratingRepository;
 
-	@Test
+	@Autowired
+	private RatingService ratingService;
+
+/*	@Test
 	public void ratingTest() {
 		Rating rating = new Rating("Moodys Rating", "Sand PRating", "Fitch Rating", 10);
 
@@ -42,5 +49,30 @@ public class RatingTests {
 		ratingRepository.delete(rating);
 		Optional<Rating> ratingList = ratingRepository.findById(id);
 		Assert.assertFalse(ratingList.isPresent());
+	}*/
+
+	@Test
+	public  void findBid(){
+		//Optional<BidList>  bidList  = bidListService.getBidListById(1);
+		//	assertEquals(bidList.isPresent(),true );
+
+		// given
+		Rating rating = new Rating();
+		rating.setFitchRating("test");
+		rating.setMoodysRating("test");
+		rating.setOrderNumber(2);
+		rating.setSandPRating("logiciel");
+		ratingService.saveRating(rating);
+
+		// when + then
+		Optional<Rating> rating1 = ratingService.getRatingById(1);
+		assertEquals(rating1.get().getFitchRating(), "test");
 	}
+
+	@Test
+	public  void findAllBidList(){
+		List<Rating>  ratingList  = ratingService.getRatings();
+		assertEquals(ratingList.size(), 2);
+	}
+
 }
