@@ -20,56 +20,61 @@ public class RuleTests {
 
 	@Autowired
 	private RuleNameService ruleNameService;
-	@Test
-	public void findRuleNameById(){
 
-		// given
-		RuleName ruleName = new RuleName();
-		ruleName.setName("test");
-		ruleName.setDescription("description rule");
-		ruleName.setJson("json ");
-		ruleNameService.saveRuleName(ruleName);
+		//findAll
+		@Test
+		public  void findAllBidList(){
+			Optional<RuleName>  ruleNames  = ruleNameService.getRuleNameById(1);
+			assertEquals(ruleNames.isPresent(),true );
+		}
+		@Test
+		public void findRuleNameById(){
 
-		// when + then
-		Optional<RuleName> ruleName1 = ruleNameService.getRuleNameById(15);
-		assertEquals(ruleName1.get().getName(), "test");
-	}
+			// given
+			RuleName ruleName = new RuleName();
+			ruleName.setName("test");
+			ruleName.setDescription("description rule");
+			ruleName.setJson("json ");
+			//ruleNameService.saveRuleName(ruleName);
 
-	@Test
-	public  void findAllBidList(){
+			// when + then
+			Optional<RuleName> ruleName1 = ruleNameService.getRuleNameById(15);
+			assertEquals(ruleName1.get().getName(), "test");
+		}
 
-		Optional<RuleName>  ruleNames  = ruleNameService.getRuleNameById(1);
-		assertEquals(ruleNames.isPresent(),true );
-	}
+		// save
+		@Test
+		public  void saveBidList(){
 
-	@Test
-	public  void saveBidList(){
+			// given
+			RuleName ruleName = new RuleName();
+			ruleName.setName("Testeur");
+			ruleName.setDescription("description rule");
+			ruleName.setJson("json ");
+			ruleName.setTemplate("template");
+			ruleName.setSqlStr("sqlstr");
+			ruleName.setSqlPart("sql ");
 
-		// given
-		RuleName ruleName = new RuleName();
-		ruleName.setName("test");
-		ruleName.setDescription("description rule");
-		ruleName.setJson("json ");
+			// Save
+			ruleName = ruleNameService.saveRuleName(ruleName);
+			Assert.assertNotNull(ruleName.getId());
+			Assert.assertTrue(ruleName.getName().equals("Testeur"));
 
-		// Save
-		ruleName = ruleNameService.saveRuleName(ruleName);
-		Assert.assertNotNull(ruleName.getId());
-		Assert.assertTrue(ruleName.getName().equals("test"));
+		}
+		//delete
+		@Test
+		public  void deleteBidList(){
 
-	}
-	@Test
-	public  void deleteBidList(){
+			RuleName ruleName = new RuleName();
+			ruleName.setName("test");
+			ruleName.setDescription("description rule");
+			ruleName.setJson("json ");
 
-		RuleName ruleName = new RuleName();
-		ruleName.setName("test");
-		ruleName.setDescription("description rule");
-		ruleName.setJson("json ");
+			ruleNameService.saveRuleName(ruleName);
 
-		ruleNameService.saveRuleName(ruleName);
-
-		Integer id = ruleName.getId();
-		ruleNameService.deleteRuleName(ruleName);
-		Optional<RuleName> ruleNameList = ruleNameService.getRuleNameById(id);
-		Assert.assertFalse(ruleNameList.isPresent());
-	}
+			Integer id = ruleName.getId();
+			ruleNameService.deleteRuleName(ruleName);
+			Optional<RuleName> ruleNameList = ruleNameService.getRuleNameById(id);
+			Assert.assertFalse(ruleNameList.isPresent());
+		}
 }

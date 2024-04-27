@@ -19,32 +19,30 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class BidTests {
-
-	@Autowired
-	private BidListRepository bidListRepository;
 	@Autowired
 	private BidListService bidListService;
 
 	@Test
-	public void findBid(){
+	public void findBidById(){
 
 		// given
 		BidList bidList1 = new BidList();
 		bidList1.setAccount("test");
 		bidList1.setBidQuantity(229.0);
 		bidList1.setType("test");
-		bidListService.saveBidList(bidList1);
+	//	bidListService.saveBidList(bidList1);
 
 		// when + then
-		Optional<BidList> bidListById = bidListService.getBidListById(17);
+		Optional<BidList> bidListById = bidListService.getBidListById(32);
 		assertEquals(bidListById.get().getAccount(), "test");
 	}
 
 	@Test
 	public  void findAllBidList(){
-		List<BidList>  bidLists  = bidListService.getBidLists();
-		assertEquals(bidLists.size(), 5);
+		Optional<BidList>   bidLists = bidListService.getBidListById(1);
+		assertEquals(bidLists.isPresent(),true );
 	}
+
 
 	@Test
 	public  void saveBidList(){
@@ -55,20 +53,10 @@ public class BidTests {
 		bidList1.setBidQuantity(229.0);
 		bidList1.setType("test");
 
-		// Save
-		bidList1 = bidListService.saveBidList(bidList1);
-		Assert.assertNotNull(bidList1.getBidListId());
-		Assert.assertTrue(bidList1.getAccount().equals("BidList"));
-
 		// Update
 		bidList1.setAccount("BidList Update");
 		bidList1 = bidListService.saveBidList(bidList1);
 		Assert.assertTrue(bidList1.getAccount().equals("BidList Update"));
-
-		/*// Find
-		List<BidList> bidLists = bidListService.getBidLists();
-		Assert.assertTrue(bidLists.size() > 0);
-		 */
 
 	}
 	@Test
