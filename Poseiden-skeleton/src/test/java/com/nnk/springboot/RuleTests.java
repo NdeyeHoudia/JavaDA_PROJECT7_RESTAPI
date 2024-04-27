@@ -1,7 +1,8 @@
 package com.nnk.springboot;
 
+
 import com.nnk.springboot.domain.RuleName;
-import com.nnk.springboot.repositories.RuleNameRepository;
+import com.nnk.springboot.services.RuleNameService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,38 +10,66 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.List;
 import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class RuleTests {
 
 	@Autowired
-	private RuleNameRepository ruleNameRepository;
+	private RuleNameService ruleNameService;
+	@Test
+	public void findRuleNameById(){
+
+		// given
+		RuleName ruleName = new RuleName();
+		ruleName.setName("test");
+		ruleName.setDescription("description rule");
+		ruleName.setJson("json ");
+		ruleNameService.saveRuleName(ruleName);
+
+		// when + then
+		Optional<RuleName> ruleName1 = ruleNameService.getRuleNameById(15);
+		assertEquals(ruleName1.get().getName(), "test");
+	}
 
 	@Test
-	public void ruleTest() {
-		RuleName rule = new RuleName("Rule Name", "Description", "Json", "Template", "SQL", "SQL Part");
+	public  void findAllBidList(){
+
+		Optional<RuleName>  ruleNames  = ruleNameService.getRuleNameById(1);
+		assertEquals(ruleNames.isPresent(),true );
+	}
+
+	@Test
+	public  void saveBidList(){
+
+		// given
+		RuleName ruleName = new RuleName();
+		ruleName.setName("test");
+		ruleName.setDescription("description rule");
+		ruleName.setJson("json ");
 
 		// Save
-		rule = ruleNameRepository.save(rule);
-		Assert.assertNotNull(rule.getId());
-		Assert.assertTrue(rule.getName().equals("Rule Name"));
+		ruleName = ruleNameService.saveRuleName(ruleName);
+		Assert.assertNotNull(ruleName.getId());
+		Assert.assertTrue(ruleName.getName().equals("test"));
 
-		// Update
-		rule.setName("Rule Name Update");
-		rule = ruleNameRepository.save(rule);
-		Assert.assertTrue(rule.getName().equals("Rule Name Update"));
+	}
+	@Test
+	public  void deleteBidList(){
 
-		// Find
-		List<RuleName> listResult = ruleNameRepository.findAll();
-		Assert.assertTrue(listResult.size() > 0);
+		RuleName ruleName = new RuleName();
+		ruleName.setName("test");
+		ruleName.setDescription("description rule");
+		ruleName.setJson("json ");
 
-		// Delete
-		Integer id = rule.getId();
-		ruleNameRepository.delete(rule);
-		Optional<RuleName> ruleList = ruleNameRepository.findById(id);
-		Assert.assertFalse(ruleList.isPresent());
+		ruleNameService.saveRuleName(ruleName);
+
+		Integer id = ruleName.getId();
+		ruleNameService.deleteRuleName(ruleName);
+		Optional<RuleName> ruleNameList = ruleNameService.getRuleNameById(id);
+		Assert.assertFalse(ruleNameList.isPresent());
 	}
 }

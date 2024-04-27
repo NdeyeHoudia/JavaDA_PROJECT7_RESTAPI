@@ -1,7 +1,6 @@
 package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.domain.Rating;
-import com.nnk.springboot.repositories.RatingRepository;
 import com.nnk.springboot.services.RatingService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +16,6 @@ import jakarta.validation.Valid;
 
 @Controller
 public class RatingController {
-    @Autowired
-    private RatingRepository ratingRepository;
 
     @Autowired
     private RatingService ratingService;

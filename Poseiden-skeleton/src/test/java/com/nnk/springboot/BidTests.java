@@ -1,15 +1,16 @@
 package com.nnk.springboot;
 
 import com.nnk.springboot.domain.BidList;
+import com.nnk.springboot.domain.RuleName;
 import com.nnk.springboot.repositories.BidListRepository;
 import com.nnk.springboot.services.BidListService;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,30 +22,11 @@ public class BidTests {
 
 	@Autowired
 	private BidListRepository bidListRepository;
-
 	@Autowired
 	private BidListService bidListService;
+
 	@Test
-	public  void saveBidList(){
-	/*BidList bid = new BidList("100", "Type Test", 10d);
-		BidList bidList = bidListService.saveBidList(bid);
-		Assert.assertEquals("15",bidList.getBid());
-	 */
-		// given
-		BidList bidList1 = new BidList();
-		bidList1.setAccount("test");
-		bidList1.setBidQuantity(229.0);
-		bidList1.setType("test");
-		bidListService.saveBidList(bidList1);
-
-
-
-
-	}
-	@Test
-	public  void findBid(){
-		//Optional<BidList>  bidList  = bidListService.getBidListById(1);
-	//	assertEquals(bidList.isPresent(),true );
+	public void findBid(){
 
 		// given
 		BidList bidList1 = new BidList();
@@ -64,18 +46,43 @@ public class BidTests {
 		assertEquals(bidLists.size(), 5);
 	}
 
+	@Test
+	public  void saveBidList(){
 
+		// given
+		BidList bidList1 = new BidList();
+		bidList1.setAccount("BidList");
+		bidList1.setBidQuantity(229.0);
+		bidList1.setType("test");
+
+		// Save
+		bidList1 = bidListService.saveBidList(bidList1);
+		Assert.assertNotNull(bidList1.getBidListId());
+		Assert.assertTrue(bidList1.getAccount().equals("BidList"));
+
+		// Update
+		bidList1.setAccount("BidList Update");
+		bidList1 = bidListService.saveBidList(bidList1);
+		Assert.assertTrue(bidList1.getAccount().equals("BidList Update"));
+
+		/*// Find
+		List<BidList> bidLists = bidListService.getBidLists();
+		Assert.assertTrue(bidLists.size() > 0);
+		 */
+
+	}
 	@Test
 	public  void deleteBidList(){
-		BidList bidList = new BidList();
-		List<BidList> bidLists = new ArrayList<>();
-		bidList.setAccount("test");
-		bidList.setBidQuantity(229.0);
-		bidList.setType("test");
-		bidLists.add(bidList);
-		//bidListService.saveBidList(bidList1);
 
+		BidList bidList = new BidList();
+		bidList.setAccount("Test2024");
+		bidList.setBidQuantity(229.0);
+		bidList.setType("Compte épargne");
+		bidListService.saveBidList(bidList);
+
+		Integer id = bidList.getBidListId();
 		bidListService.deleteBid(bidList);
-	//	assertEquals(usersEntity.size(), 8);
+		Optional<BidList> listBidList = bidListService.getBidListById(id);
+		Assert.assertFalse(listBidList.isPresent());
 	}
 }

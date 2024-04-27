@@ -18,9 +18,6 @@ import jakarta.validation.Valid;
 @Controller
 public class CurveController {
     @Autowired
-    private CurvePointRepository curvePointRepository;
-
-    @Autowired
     private CurvePointService curvePointService;
     /**
      * this endpoint retrieves the list of curvePoint

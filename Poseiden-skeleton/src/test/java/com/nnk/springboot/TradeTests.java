@@ -1,7 +1,9 @@
 package com.nnk.springboot;
 
+import com.nnk.springboot.domain.RuleName;
 import com.nnk.springboot.domain.Trade;
 import com.nnk.springboot.repositories.TradeRepository;
+import com.nnk.springboot.services.TradeService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,35 +14,64 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class TradeTests {
 
 	@Autowired
-	private TradeRepository tradeRepository;
+	private TradeService tradeService;
 
 	@Test
-	public void tradeTest() {
-		Trade trade = new Trade("Trade Account", "Type");
+	public void findRuleNameById(){
 
+		// given
+		Trade trade = new Trade();
+		trade.setAccount("Compte ABBDC");
+		trade.setBuyQuantity(200.0);
+		trade.setType("Epargne");
+		//tradeService.saveTrade(trade);
+
+		// when + then
+		Optional<Trade> trade1 = tradeService.getTradeById(10);
+		assertEquals(trade1.get().getType(), "Epargne");
+	}
+
+	@Test
+	public  void findAllBidList(){
+
+		Optional<Trade>  trades  = tradeService.getTradeById(1);
+		assertEquals(trades.isPresent(),true );
+	}
+
+	@Test
+	public  void saveBidList(){
+
+		// given
+		Trade trade = new Trade();
+		trade.setAccount("Compte ABBDC");
+		trade.setBuyQuantity(200.0);
+		trade.setType("Epargne");
+		//tradeService.saveTrade(trade);
 		// Save
-		trade = tradeRepository.save(trade);
+		trade = tradeService.saveTrade(trade);
 		Assert.assertNotNull(trade.getTradeId());
-		Assert.assertTrue(trade.getAccount().equals("Trade Account"));
+		Assert.assertTrue(trade.getType().equals("Epargne"));
 
-		// Update
-		trade.setAccount("Trade Account Update");
-		trade = tradeRepository.save(trade);
-		Assert.assertTrue(trade.getAccount().equals("Trade Account Update"));
+	}
+	@Test
+	public  void deleteBidList(){
 
-		// Find
-		List<Trade> listResult = tradeRepository.findAll();
-		Assert.assertTrue(listResult.size() > 0);
+		Trade trade = new Trade();
+		trade.setAccount("Compte ABBDC");
+		trade.setBuyQuantity(200.0);
+		trade.setType("Epargne");
+		tradeService.saveTrade(trade);
 
-		// Delete
 		Integer id = trade.getTradeId();
-		tradeRepository.delete(trade);
-		Optional<Trade> tradeList = tradeRepository.findById(id);
-		Assert.assertFalse(tradeList.isPresent());
+		tradeService.deleteTrade(trade);
+		Optional<Trade> optionalTrade = tradeService.getTradeById(id);
+		Assert.assertFalse(optionalTrade.isPresent());
 	}
 }
