@@ -22,31 +22,29 @@ public class BidTests {
 	@Autowired
 	private BidListService bidListService;
 
-	@Test
-	public void findBidById(){
-
-		// given
-		BidList bidList1 = new BidList();
-		bidList1.setAccount("test");
-		bidList1.setBidQuantity(229.0);
-		bidList1.setType("test");
-	//	bidListService.saveBidList(bidList1);
-
-		// when + then
-		Optional<BidList> bidListById = bidListService.getBidListById(32);
-		assertEquals(bidListById.get().getAccount(), "test");
-	}
-
+	// findAll
 	@Test
 	public  void findAllBidList(){
 		Optional<BidList>   bidLists = bidListService.getBidListById(1);
 		assertEquals(bidLists.isPresent(),true );
 	}
 
+	@Test
+	public void findBidById(){
+		// given
+		BidList bidList1 = new BidList();
+		bidList1.setAccount("test");
+		bidList1.setBidQuantity(229.0);
+		bidList1.setType("test");
+		//	bidListService.saveBidList(bidList1);
 
+		// when + then
+		Optional<BidList> bidListById = bidListService.getBidListById(32);
+		assertEquals(bidListById.get().getAccount(), "test");
+	}
+	// save
 	@Test
 	public  void saveBidList(){
-
 		// given
 		BidList bidList1 = new BidList();
 		bidList1.setAccount("BidList");

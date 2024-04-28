@@ -26,7 +26,6 @@ public class RatingTests {
 			List<Rating>  ratingList  = ratingService.getRatings();
 			assertEquals(ratingList.size(), 2);
 		}
-
 		// findById
 		@Test
 		public  void findRating(){
