@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import java.security.Principal;
 
 @Controller
 public class HomeController
@@ -15,9 +14,8 @@ public class HomeController
 	@Autowired
 	private UserRepository userRepository;
 	@RequestMapping("/")
-	public String home(Model model, Principal principal, HttpServletRequest request,User user)
+	public String home(HttpServletRequest request)
 	{
-		String name = principal.getName();
 		String names = request.getUserPrincipal().getName();
 		User currentUser = userRepository.findByUsername(names).orElseThrow();
 		String user1 = userRepository.findByUsername(names).get().getRole();

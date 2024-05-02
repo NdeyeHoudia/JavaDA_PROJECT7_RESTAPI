@@ -51,7 +51,6 @@ public class BidListController {
         if(result.hasErrors()){
             return "bidList/add";
         }
-        //bidListRepository.save(bid);
         bidListService.saveBidList(bid);
         model.addAttribute("bidLists", bidListService.getBidLists());
         return "bidList/add";
@@ -87,7 +86,6 @@ public class BidListController {
         }
         bidList.setBidListId(id);
         bidListService.saveBidList(bidList);
-       // bidListRepository.save(bidList);
         model.addAttribute("bidLists", bidListService.getBidLists());
         return "redirect:/bidList/list";
     }
@@ -101,7 +99,6 @@ public class BidListController {
     @GetMapping("/bidList/delete/{id}")
     public String deleteBid(@PathVariable("id") Integer id, Model model) {
         BidList bidList = bidListService.getBidListById(id).orElseThrow(() -> new IllegalArgumentException("Invalid bidList Id:" + id));
-       // bidListRepository.delete(bidList);
         bidListService.deleteBid(bidList);
         model.addAttribute("bidLists", bidListService.getBidLists());
         return "redirect:/bidList/list";

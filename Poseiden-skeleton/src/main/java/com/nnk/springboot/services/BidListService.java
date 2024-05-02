@@ -19,15 +19,15 @@ public class BidListService {
         return  bidListRepository.save(bidList);
     }
 
-    //Find
+    //FindAll
     public List<BidList> getBidLists(){
         return bidListRepository.findAll();
     }
 
+    //FinById
     public Optional<BidList> getBidListById(Integer id){
         return  bidListRepository.findById(id);
     }
-
     //Delete
     public void deleteBid(BidList bidList){
          bidListRepository.delete(bidList);

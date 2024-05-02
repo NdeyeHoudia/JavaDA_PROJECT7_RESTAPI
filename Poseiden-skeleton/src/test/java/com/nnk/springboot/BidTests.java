@@ -1,7 +1,6 @@
 package com.nnk.springboot;
 
 import com.nnk.springboot.domain.BidList;
-import com.nnk.springboot.domain.Rating;
 import com.nnk.springboot.services.BidListService;
 import org.junit.Assert;
 import org.junit.Test;
@@ -28,12 +27,9 @@ public class BidTests {
 		assertEquals(bidLists.size(), 4);
 	}
 
-
 	@Test
 	public void findBidById(){
-		// given
 		Optional<BidList>   bidLists = bidListService.getBidListById(1);
-		// when + then
 		assertEquals(bidLists.isPresent(),true );
 
 	}
@@ -45,11 +41,13 @@ public class BidTests {
 		bidList1.setAccount("BidList");
 		bidList1.setBidQuantity(229.0);
 		bidList1.setType("test");
+		bidListService.saveBidList(bidList1);
 
 		// Update
-		bidList1.setAccount("BidList Update");
+		bidList1.setAccount("BidList Updated");
+		bidList1.setBidQuantity(230.0);
 		bidList1 = bidListService.saveBidList(bidList1);
-		Assert.assertTrue(bidList1.getAccount().equals("BidList Update"));
+		Assert.assertTrue(bidList1.getAccount().equals("BidList Updated"));
 
 	}
 	@Test
