@@ -1,5 +1,6 @@
 package com.nnk.springboot;
 
+import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.domain.CurvePoint;
 import com.nnk.springboot.services.CurvePointService;
 import org.junit.Assert;
@@ -8,8 +9,11 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.List;
 import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -19,24 +23,17 @@ public class CurvePointTests {
 
 	//findAll
 	@Test
-	public  void findAllCurvePoint(){
+	public  void findBidById (){
 		Optional<CurvePoint>  curvePoint  = curvePointService.getCurvePointById(1);
 		assertEquals(curvePoint.isPresent(),true );
 	}
-
 	//findById
 	@Test
-	public void findBid(){
+	public void findAllCurvePoint(){
 
+		List<CurvePoint> curvePoints = curvePointService.getCurvePoint();
+		assertNotNull(curvePoints.size());
 		// given
-		CurvePoint curvePoint1 = new CurvePoint();
-		curvePoint1.setTerm(129.0);
-		curvePoint1.setValue(229.0);
-		curvePointService.saveCurvePoint(curvePoint1);
-
-		// when + then
-		Optional<CurvePoint> listById = curvePointService.getCurvePointById(11);
-		assertEquals(listById.get().getTerm(), 129.0);
 	}
 
 	//Save

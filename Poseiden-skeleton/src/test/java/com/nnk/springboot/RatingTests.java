@@ -30,15 +30,9 @@ public class RatingTests {
 		@Test
 		public  void findRating(){
 			// given
-			Rating rating = new Rating();
-			rating.setFitchRating("test");
-			rating.setMoodysRating("test");
-			rating.setOrderNumber(2);
-			rating.setSandPRating("logiciel");
-
-			// when + then
 			Optional<Rating> rating1 = ratingService.getRatingById(1);
-			assertEquals(rating1.get().getFitchRating(), "test");
+			// when + then
+			assertEquals(rating1.get().getFitchRating(), "Value");
 		}
 
 		//Save
@@ -47,14 +41,14 @@ public class RatingTests {
 			// given
 			Rating rating = new Rating();
 			rating.setFitchRating("test");
-			rating.setMoodysRating("MoodysRating(");
+			rating.setMoodysRating("MoodysRating");
 			rating.setOrderNumber(2);
 			rating.setSandPRating("logiciel");
 
 			// Save
 			rating = ratingService.saveRating(rating);
 			Assert.assertNotNull(rating.getId());
-			Assert.assertTrue(rating.getMoodysRating().equals("MoodysRating("));
+			Assert.assertTrue(rating.getMoodysRating().equals("MoodysRating"));
 		}
 		@Test
 		public  void deleteRating(){

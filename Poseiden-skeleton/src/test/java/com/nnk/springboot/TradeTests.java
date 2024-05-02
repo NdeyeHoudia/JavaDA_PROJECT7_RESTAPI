@@ -1,8 +1,6 @@
 package com.nnk.springboot;
 
-import com.nnk.springboot.domain.RuleName;
 import com.nnk.springboot.domain.Trade;
-import com.nnk.springboot.repositories.TradeRepository;
 import com.nnk.springboot.services.TradeService;
 import org.junit.Assert;
 import org.junit.Test;
@@ -26,14 +24,6 @@ public class TradeTests {
 	@Test
 	public void findRuleNameById(){
 
-		// given
-		Trade trade = new Trade();
-		trade.setAccount("Compte ABBDC");
-		trade.setBuyQuantity(200.0);
-		trade.setType("Epargne");
-		//tradeService.saveTrade(trade);
-
-		// when + then
 		Optional<Trade> trade1 = tradeService.getTradeById(10);
 		assertEquals(trade1.get().getType(), "Epargne");
 	}
@@ -41,8 +31,8 @@ public class TradeTests {
 	@Test
 	public  void findAllBidList(){
 
-		Optional<Trade>  trades  = tradeService.getTradeById(1);
-		assertEquals(trades.isPresent(),true );
+		List<Trade>  trades  = tradeService.getTrade();
+		assertEquals(trades.size(),4 );
 	}
 
 	@Test
@@ -53,7 +43,7 @@ public class TradeTests {
 		trade.setAccount("Compte ABBDC");
 		trade.setBuyQuantity(200.0);
 		trade.setType("Epargne");
-		//tradeService.saveTrade(trade);
+
 		// Save
 		trade = tradeService.saveTrade(trade);
 		Assert.assertNotNull(trade.getTradeId());

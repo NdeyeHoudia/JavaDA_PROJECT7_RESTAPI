@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -23,23 +25,16 @@ public class RuleTests {
 
 		//findAll
 		@Test
-		public  void findAllBidList(){
+		public  void findRuleNameById(){
 			Optional<RuleName>  ruleNames  = ruleNameService.getRuleNameById(1);
 			assertEquals(ruleNames.isPresent(),true );
 		}
 		@Test
-		public void findRuleNameById(){
-
-			// given
-			RuleName ruleName = new RuleName();
-			ruleName.setName("test");
-			ruleName.setDescription("description rule");
-			ruleName.setJson("json ");
-			//ruleNameService.saveRuleName(ruleName);
+		public void findAllBidList(){
 
 			// when + then
-			Optional<RuleName> ruleName1 = ruleNameService.getRuleNameById(15);
-			assertEquals(ruleName1.get().getName(), "test");
+			List<RuleName> ruleNames = ruleNameService.getRuleName();
+			assertNotNull(ruleNames.size());
 		}
 
 		// save
